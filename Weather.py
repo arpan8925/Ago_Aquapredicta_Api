@@ -3,30 +3,12 @@ import requests
 
 app = Flask(__name__)
 
-# Your OpenWeatherMap API Key
-API_KEY = "9e3022f865218f4d3f8780a1db8832b0"  # Replace with your actual API key
+API_KEY = "9e3022f865218f4d3f8780a1db8832b0"  
 
-# Define temperature thresholds for crops (these are just examples, adjust as needed)
-RISKY_HIGH_TEMP = 35  # Degrees Celsius (high-risk temperature for low-temp crops)
-RISKY_LOW_TEMP = 5    # Degrees Celsius (low-risk temperature for low-temp crops)
+# Ekta Risky Temp Declare kore disi Age theke
+RISKY_HIGH_TEMP = 35  
+RISKY_LOW_TEMP = 5  
 
-# Helper function to get location
-def get_location():
-    try:
-        response = requests.get("https://ipinfo.io/")
-        if response.status_code != 200:
-            return None, None, f"Error fetching location: {response.status_code}"
-        data = response.json()
-        location = data.get('loc', None)
-        if location:
-            lat, lon = location.split(',')
-            return lat, lon, None
-        else:
-            return None, None, "Error: No 'loc' field in response from IP geolocation."
-    except Exception as e:
-        return None, None, f"Error getting location: {str(e)}"
-
-# Endpoint to get current weather
 @app.route('/current-weather', methods=['GET'])
 def current_weather():
     lat, lon, error = get_location()
@@ -53,7 +35,7 @@ def current_weather():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Endpoint to get weather forecast and crop risk analysis
+
 @app.route('/weather-forecast', methods=['GET'])
 def weather_forecast():
     lat, lon, error = get_location()
@@ -76,11 +58,11 @@ def weather_forecast():
                 forecast_date = dt_txt.split(" ")[0]
                 forecasted_days.add(forecast_date)
                 
-                # Check for rain in forecast
+
                 if 'rain' in forecast and rain_forecast is None:
                     rain_forecast = dt_txt
 
-                # Check for risky temperatures for crops
+
                 if temp >= RISKY_HIGH_TEMP or temp <= RISKY_LOW_TEMP:
                     risky_temperature_dates.append({"date": dt_txt, "temperature": temp})
 
@@ -98,6 +80,6 @@ def weather_forecast():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Run the Flask app
+
 if __name__ == '__main__':
     app.run(debug=True)
