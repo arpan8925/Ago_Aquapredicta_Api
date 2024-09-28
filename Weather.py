@@ -9,6 +9,22 @@ API_KEY = "9e3022f865218f4d3f8780a1db8832b0"
 RISKY_HIGH_TEMP = 35  
 RISKY_LOW_TEMP = 5  
 
+def get_location():
+    try:
+        response = requests.get("https://ipinfo.io/")
+        if response.status_code != 200:
+            return None, None, f"Error fetching location: {response.status_code}"
+        data = response.json()
+        location = data.get('loc', None)
+        if location:
+            lat, lon = location.split(',')
+            return lat, lon, None
+        else:
+            return None, None, "Error: No 'loc' field in response from IP geolocation."
+    except Exception as e:
+        return None, None, f"Error getting location: {str(e)}"
+
+
 @app.route('/current-weather', methods=['GET'])
 def current_weather():
     lat, lon, error = get_location()
