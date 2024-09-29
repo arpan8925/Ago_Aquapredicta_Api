@@ -1,12 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from weather_api import get_location, fetch_current_weather, fetch_weather_forecast
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "<p>API Server Working</p>"
-
+    return render_template("index.html")
 
 @app.route('/current-weather', methods=['GET'])
 def current_weather():
