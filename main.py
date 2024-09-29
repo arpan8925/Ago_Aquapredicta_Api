@@ -2,7 +2,6 @@ from flask import Flask, jsonify
 from weather_api import get_location, fetch_current_weather, fetch_weather_forecast
 
 app = Flask(__name__)
-application = app
 
 @app.route("/")
 def index():
