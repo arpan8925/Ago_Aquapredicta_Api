@@ -4,7 +4,11 @@ from weather_api import get_location, fetch_current_weather, fetch_weather_forec
 app = Flask(__name__)
 application = app
 
-# Endpoint to get current weather
+@app.route("/")
+def index():
+    return "<p>Hello, World!</p>"
+
+
 @app.route('/current-weather', methods=['GET'])
 def current_weather():
     lat, lon = get_location()
