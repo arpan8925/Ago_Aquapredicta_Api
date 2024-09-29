@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from weather_api import get_location, fetch_current_weather, fetch_weather_forecast
 
 app = Flask(__name__)
+application = app
 
 # Endpoint to get current weather
 @app.route('/current-weather', methods=['GET'])
