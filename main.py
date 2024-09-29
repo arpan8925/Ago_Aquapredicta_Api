@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "<p>Hello, World!</p>"
+    return "<p>API Server Working</p>"
 
 
 @app.route('/current-weather', methods=['GET'])

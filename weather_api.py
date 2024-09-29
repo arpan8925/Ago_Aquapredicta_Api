@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 
 # Your OpenWeatherMap API Key
 API_KEY = "9e3022f865218f4d3f8780a1db8832b0"
@@ -26,8 +27,10 @@ def fetch_current_weather(lat, lon):
         response = requests.get(url)
         data = response.json()
         if data['cod'] == 200:
+            current_date = datetime.now().strftime("%Y-%m-%d")
             weather_data = {
                 "city": data['name'],
+                "date": current_date,
                 "weather_description": data['weather'][0]['description'],
                 "temperature": data['main']['temp'],
                 "humidity": data['main']['humidity']
